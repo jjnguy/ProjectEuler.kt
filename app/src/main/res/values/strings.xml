@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">EulerKt</string>
+    <string name="solve_button_label">solve</string>
 </resources>
