@@ -22,8 +22,16 @@ class ProblemList : AppCompatActivity() {
   val adapter = object: RecyclerView.Adapter<EulerViewHolder>() {
 
     val items = listOf(
-      EulerProblem(5, { "1337" }),
-      EulerProblem(13, { "42" })
+      EulerProblem(1, {
+        (1 until 1000).filter { it % 3 == 0 || it % 5 == 0 }.sum().toString()
+      }),
+      EulerProblem(2, {
+        (1 until 10000)
+          .map { fib(it) }
+          .takeWhile { it < 4_000_000 }
+          .filter { it % 2 == 0 }
+          .sum().toString()
+      })
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EulerViewHolder {
@@ -66,3 +74,20 @@ class EulerViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 }
 
 class EulerProblem(val number: Int, val solution: () -> String)
+
+val memory = mutableMapOf<Int, Int>(
+  1 to 1,
+  2 to 2
+)
+fun fib(n: Int): Int {
+  if (memory.containsKey(n)) return memory[n]!!
+
+  val result =
+    if (n == 1) return 1
+    else if (n == 2) return 2
+    else fib(n - 1) + fib(n - 2)
+
+  memory[n] = result
+
+  return result
+}
